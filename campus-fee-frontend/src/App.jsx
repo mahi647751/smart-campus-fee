@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
+const API_URL = 'https://onrender.com';
+
 export default function App() {
   const [fees, setFees] = useState([]);
   const [form, setForm] = useState({ name: '', feeType: '', amount: '' });
 
-  const fetchFees = () => fetch('http://localhost:5000/fees').then(r => r.json()).then(setFees);
+  const fetchFees = () => fetch(API_URL).then(r => r.json()).then(setFees);
   useEffect(() => { fetchFees(); }, []);
 
   const handleSubmit = e => {
     e.preventDefault();
-    fetch('http://localhost:5000/fees', {
+    fetch(API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form)
@@ -17,7 +19,7 @@ export default function App() {
   };
 
   const handleDelete = id => {
-    fetch(`http://localhost:5000/fees/${id}`, { method: 'DELETE' }).then(fetchFees);
+    fetch(`${API_URL}/${id}`, { method: 'DELETE' }).then(fetchFees);
   };
 
   return (
